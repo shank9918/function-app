@@ -10,6 +10,7 @@ import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
 import java.util.Optional;
+import java.util.logging.Logger;
 
 /**
  * Azure Functions with HTTP Trigger.
@@ -24,8 +25,12 @@ public class TodoHttpFunction {
 	public HttpResponseMessage run(
 			@HttpTrigger(name = "req", methods = {HttpMethod.GET, HttpMethod.POST}, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<String>> request,
 			final ExecutionContext context) {
-		context.getLogger().info("Request Headers:");
-		request.getHeaders().forEach((key, value) -> context.getLogger().info(key + " : " + value));
+		Logger logger = context.getLogger();
+		logger.info("Request Headers:" + request.getHeaders());
+		logger.info("Size: " + request.getHeaders().keySet().size());
+		request.getHeaders().keySet().forEach(key -> {
+			logger.info(key + " : " + request.getHeaders().get(key));
+		});
 		context.getLogger().info("Java HTTP trigger processed a request.");
 		Optional<String> requestBody = request.getBody();
 
