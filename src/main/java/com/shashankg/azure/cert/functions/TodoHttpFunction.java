@@ -25,7 +25,7 @@ public class TodoHttpFunction {
 			@HttpTrigger(name = "req", methods = {HttpMethod.GET, HttpMethod.POST}, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<String>> request,
 			final ExecutionContext context) {
 		context.getLogger().info("Request Headers:");
-		request.getHeaders().entrySet().forEach(entry -> context.getLogger().info(entry.getKey() + " : " + entry.getValue()));
+		request.getHeaders().forEach((key, value) -> context.getLogger().info(key + " : " + value));
 		context.getLogger().info("Java HTTP trigger processed a request.");
 		Optional<String> requestBody = request.getBody();
 
